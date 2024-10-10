@@ -1,0 +1,35 @@
+---
+# Sybox Installation
+
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - jq
+    state: present
+
+- name: Download Sysbox Deb File
+  ansible.builtin.get_url:
+    url: "{{ sysbox_package_url }}"
+    dest: "{{ sysbox_package_file }}"
+    mode: "0644"
+
+- name: Get sha256 sum of Sysbox Deb File
+  ansible.builtin.stat:
+    path: "{{ sysbox_package_file }}"
+    checksum_algorithm: sha256
+    get_checksum: true
+  register: file_stat
+
+- name: Verify if Sysbox Deb File exists
+  ansible.builtin.fail:
+    msg: "{{ sysbox_package_file }} not found"
+  when: not file_stat.stat.exists
+
+- name: Verify sha256 sum of Sysbox Deb file
+  ansible.builtin.fail:
+    msg: "Failure, Sysbox deb file is not correct (checksum error)"
+  when: file_stat.stat.checksum != sysbox_package_sha256
+
+- name: Install Sysbox
+  ansible.builtin.apt:
+    deb: "{{ sysbox_package_file }}"

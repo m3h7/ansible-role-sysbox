@@ -1,0 +1,19 @@
+galaxy_info:
+  role_name: sysbox
+  namespace: m3h7
+  author: mahiso
+  description: Installs Sysbox
+
+  license: MIT
+
+  min_ansible_version: "2.14"
+
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+
+  galaxy_tags:
+    - docker
+
+dependencies: []

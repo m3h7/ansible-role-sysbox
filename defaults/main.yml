@@ -1,0 +1,8 @@
+---
+sysbox_release: "0.6.4"
+sysbox_package_name: sysbox-ce_{{ sysbox_release }}-0.linux_amd64.deb
+sysbox_package_url: https://downloads.nestybox.com/sysbox/releases/v{{ sysbox_release }}/{{ sysbox_package_name }}
+sysbox_package_sha256: d034ddd364ee1f226b8b1ce7456ea8a12abc2eb661bdf42d3e603ed2dc741827
+
+sysbox_package_base: "/var/cache/apt"
+sysbox_package_file: "{{ sysbox_package_base }}/{{ sysbox_package_name }}"
