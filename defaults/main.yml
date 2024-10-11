@@ -6,3 +6,6 @@ sysbox_package_sha256: d034ddd364ee1f226b8b1ce7456ea8a12abc2eb661bdf42d3e603ed2d
 
 sysbox_package_base: "/var/cache/apt"
 sysbox_package_file: "{{ sysbox_package_base }}/{{ sysbox_package_name }}"
+
+sysbox_docker_daemon_config:
+  { "default-runtime": "sysbox-runc", "runtimes": { "sysbox-runc": { "path": "/usr/bin/sysbox-runc" } } }

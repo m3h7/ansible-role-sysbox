@@ -33,3 +33,30 @@
 - name: Install Sysbox
   ansible.builtin.apt:
     deb: "{{ sysbox_package_file }}"
+  notify: Restart Docker Daemon
+
+- name: Load Docker Daemon Config File
+  ansible.builtin.slurp:
+    src: /etc/docker/daemon.json
+  register: docker_daemon_cfg
+
+- name: Debug - Current Config
+  ansible.builtin.debug:
+    msg: "{{ docker_daemon_cfg.content | b64decode | from_json }}"
+    verbosity: 1
+
+- name: Append key/values to Docker Daemon Config
+  ansible.builtin.set_fact:
+    docker_daemon_cfg: "{{ docker_daemon_cfg.content | b64decode | from_json | default({}) | combine(sysbox_docker_daemon_config) }}"
+
+- name: Debug - New Config
+  ansible.builtin.debug:
+    var: docker_daemon_cfg
+    verbosity: 1
+
+- name: Write new Daemon Config
+  ansible.builtin.copy:
+    content: "{{ docker_daemon_cfg | to_nice_json }}"
+    dest: /etc/docker/daemon.json
+    mode: "0644"
+  notify: Restart Docker Daemon
