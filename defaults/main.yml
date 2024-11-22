@@ -8,4 +8,7 @@ sysbox_package_base: "/var/cache/apt"
 sysbox_package_file: "{{ sysbox_package_base }}/{{ sysbox_package_name }}"
 
 sysbox_docker_daemon_config:
-  { "default-runtime": "sysbox-runc", "runtimes": { "sysbox-runc": { "path": "/usr/bin/sysbox-runc" } } }
+  {
+    "default-runtime": "sysbox-runc",
+    "runtimes": { "sysbox-runc": { "path": "/usr/bin/sysbox-runc" }, "docker-runc": { "path": "/usr/bin/runc" } },
+  }
